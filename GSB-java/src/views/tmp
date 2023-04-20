@@ -1,0 +1,99 @@
+package views;
+
+import java.awt.event.ActionListener;
+
+public class Login {
+    private String nom;
+
+    private String date;
+
+    //constructeur avec parametres
+    public Login(String nom, String date) {
+        this.nom = nom;
+        this.date = date;
+    }
+
+
+    //Getter et setter des attributs
+    public String getNomComplet() {
+        String prenom = null;
+        return nom+" " +prenom;
+    }
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
+}
+
+
+
+package views;
+
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class bdd_login {
+    Connection con;
+
+
+    public bdd_login() {
+        try {
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/gsb_java", "root", "root");
+            System.out.println("Success");
+
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+
+
+        }
+    }
+
+    public List<Login> getLogin(){
+        List<Login> loginList = new ArrayList<Login>();
+
+        //remplire la liste
+        //ecrire la requete
+        //executer la requete avec prepareStatement
+        //stocker le resultat dans ResultSet
+        //parcourir le resultset pour remplir la liste
+
+
+        try {
+
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select VIS_NOM,VIS_DATEEMBAUCHE from visiteur");
+
+            Login l;
+            while(rs.next()){
+                l = new Login(rs.getString(1),rs.getString(2));
+                loginList.add(l);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return loginList;
+    }
+
+
+}
+
